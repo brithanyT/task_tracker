@@ -1,0 +1,9 @@
+<div class="form-container">
+  <h1>Crear Nueva Tarea</h1>
+  <p style="color: #7f8c8d; margin-bottom: 20px;">Completa los datos a continuación:</p>
+  
+  <%= render "form", task: @task %>
+  
+  <br>
+  <%= link_to "← Volver a la lista", tasks_path, style: "color: #3498db; text-decoration: none;" %>
+</div>

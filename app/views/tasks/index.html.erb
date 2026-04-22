@@ -1,0 +1,34 @@
+<h1> <center>Lista de Tareas de Bri</center></h1>
+
+<%= link_to "Nueva Tarea", new_task_path, style: "display: inline-block; padding: 10px; background-color: #3498db; color: white; text-decoration: none; margin-bottom: 15px;" %> 
+
+<table>
+  <thead>
+    <tr>
+      <th>Título</th>
+      <th>Estado</th>
+      <th>Prioridad</th>
+      <th>Acciones</th> </tr>
+  </thead>
+  <tbody>
+    <% @tasks.each do |task| %>
+      <tr>
+        <td><%= task.title %></td>
+        <td>
+          <% if task.status == 'completada' %>
+            <span style="color: green; font-weight: bold;">✔ <%= task.status %></span>
+          <% else %>
+            <%= task.status %>
+          <% end %>
+        </td>
+        <td><%= task.priority %></td>
+        
+        <td>
+          <%= link_to "Editar", edit_task_path(task) %> | 
+          
+          <%= button_to "Eliminar", task_path(task), method: :delete, form: { style: 'display:inline-block;' }, style: "color: red; border: none; background: none; cursor: pointer; text-decoration: underline;" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
