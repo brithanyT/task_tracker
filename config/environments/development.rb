@@ -3,74 +3,56 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  # In the development environment your application's code is reloaded any time
-  # it changes. This slows down response time but is perfect for development
-  # since you don't have to restart the web server when you make code changes.
+  # En desarrollo, el código se recarga automáticamente al cambiar archivos.
   config.enable_reloading = true
 
-  # Do not eager load code on boot.
+  # No carga todo el código al inicio (más rápido en desarrollo).
   config.eager_load = false
 
-  # Show full error reports.
+  # Muestra errores completos en el navegador.
   config.consider_all_requests_local = true
 
-  # Enable server timing
+  # Habilita server timing.
   config.server_timing = true
 
-  # Enable/disable caching. By default caching is disabled.
-  # Run rails dev:cache to toggle caching.
-  if Rails.root.join("tmp/caching-dev.txt").exist?
-    config.action_controller.perform_caching = true
-    config.action_controller.enable_fragment_cache_logging = true
+  # Caché desactivado por defecto en desarrollo.
+  config.action_controller.perform_caching = false
+  config.cache_store = :null_store
 
-    config.cache_store = :memory_store
-    config.public_file_server.headers = {
-      "Cache-Control" => "public, max-age=#{2.days.to_i}"
-    }
-  else
-    config.action_controller.perform_caching = false
+  # -------------------------------------------------------
+  # MÓDULOS COMENTADOS: fallan en este entorno (rbenv+rvm)
+  # Se pueden reactivar cuando resuelvas el conflicto de versiones
+  # -------------------------------------------------------
 
-    config.cache_store = :null_store
-  end
+  # ActiveStorage — manejo de archivos subidos (no necesario para aprender backend básico)
+  # config.active_storage.service = :local
 
-  # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
+  # ActionMailer — envío de correos
+  # config.action_mailer.raise_delivery_errors = false
+  # config.action_mailer.perform_caching = false
 
-  # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  # ActiveJob — trabajos en segundo plano
+  # config.active_job.verbose_enqueue_logs = true
 
-  config.action_mailer.perform_caching = false
+  # -------------------------------------------------------
+  # CONFIGURACIONES QUE SÍ FUNCIONAN
+  # -------------------------------------------------------
 
-  # Print deprecation notices to the Rails logger.
+  # Deprecation warnings en el log (active_support sí carga bien)
   config.active_support.deprecation = :log
-
-  # Raise exceptions for disallowed deprecations.
   config.active_support.disallowed_deprecation = :raise
-
-  # Tell Active Support which deprecation messages to disallow.
   config.active_support.disallowed_deprecation_warnings = []
 
-  # Raise an error on page load if there are pending migrations.
+  # Active Record (nuestra herramienta principal de aprendizaje)
+  # Muestra error en pantalla si hay migraciones pendientes
   config.active_record.migration_error = :page_load
 
-  # Highlight code that triggered database queries in logs.
+  # Muestra el SQL generado en los logs (MUY útil para aprender)
   config.active_record.verbose_query_logs = true
 
-  # Highlight code that enqueued background job in logs.
-  config.active_job.verbose_enqueue_logs = true
-
-  # Suppress logger output for asset requests.
+  # Suprime logs de assets para que el output sea más limpio
   config.assets.quiet = true
 
-  # Raises error for missing translations.
-  # config.i18n.raise_on_missing_translations = true
-
-  # Annotate rendered view with file names.
-  # config.action_view.annotate_rendered_view_with_filenames = true
-
-  # Uncomment if you wish to allow Action Cable access from any origin.
-  # config.action_cable.disable_request_forgery_protection = true
-
-  # Raise error when a before_action's only/except options reference missing actions
+  # Lanza error si un before_action referencia una acción inexistente
   config.action_controller.raise_on_missing_callback_actions = true
 end

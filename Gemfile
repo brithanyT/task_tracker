@@ -8,8 +8,9 @@ gem "rails", "~> 7.1.6"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
-# Use sqlite3 as the database for Active Record
-gem "sqlite3", ">= 1.4"
+# Usamos MySQL como base de datos (más cercano a producción real)
+# Requiere: sudo apt install default-libmysqlclient-dev -y  (en Ubuntu)
+gem "mysql2", "~> 0.5"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"

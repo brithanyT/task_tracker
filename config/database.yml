@@ -1,25 +1,32 @@
-# SQLite. Versions 3.8.0 and up are supported.
-#   gem install sqlite3
+# MySQL — Cambiado de SQLite a MySQL para aprendizaje de backend real
+# Asegúrate de que MySQL esté corriendo: sudo systemctl start mysql
 #
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem "sqlite3"
+# Para instalar el gem: agrega `gem "mysql2"` en Gemfile y corre `bundle install`
+# Para instalar la librería del sistema: sudo apt install default-libmysqlclient-dev -y
 #
 default: &default
-  adapter: sqlite3
+  adapter: mysql2
+  encoding: utf8mb4
+  collation: utf8mb4_unicode_ci
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
+  username: <%= ENV.fetch("DB_USERNAME", "rails_user") %>
+  password: <%= ENV.fetch("DB_PASSWORD", "password123") %>
+  host: <%= ENV.fetch("DB_HOST", "127.0.0.1") %>
+  port: 3306
 
 development:
   <<: *default
-  database: storage/development.sqlite3
+  database: task_tracker_development
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: storage/test.sqlite3
+  database: task_tracker_test
 
 production:
   <<: *default
-  database: storage/production.sqlite3
+  database: task_tracker_production
+  username: <%= ENV["DB_USERNAME"] %>
+  password: <%= ENV["DB_PASSWORD"] %>
